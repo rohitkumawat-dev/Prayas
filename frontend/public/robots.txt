@@ -1,0 +1,14 @@
+# https://www.robotstxt.org/robotstxt.html
+# Capacity Connect
+
+User-agent: *
+Allow: /
+Allow: /login
+Allow: /register
+
+# Authenticated / dashboard areas add no public SEO value and should not be crawled
+Disallow: /trainee/
+Disallow: /trainer/
+Disallow: /admin/
+
+Sitemap: https://www.capacityconnect.example.com/sitemap.xml

@@ -1,0 +1,21 @@
+# Capacity Connect
+
+> Capacity Connect is a skill-training and certification platform connecting
+> trainees, trainers, and administrators. Trainees browse courses, complete
+> lessons and quizzes, track progress, and earn certificates. Trainers create
+> and manage courses, monitor student progress, and view analytics.
+> Administrators oversee users, courses, and platform-wide analytics.
+
+## Public pages
+
+- [Home](/): Landing page introducing the platform and its three user roles
+  (trainee, trainer, administrator).
+- [Login](/login): Sign in for existing trainees, trainers, and admins.
+- [Register](/register): Create a new trainee or trainer account.
+
+## Notes for automated agents
+
+- Dashboard areas (/trainee/*, /trainer/*, /admin/*) require authentication
+  and are not publicly indexable content — see /robots.txt.
+- This site does not permit automated account creation, scraping of learner
+  data, or bulk downloading of course content.

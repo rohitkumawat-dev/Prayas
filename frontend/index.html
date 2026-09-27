@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- Favicon (real files live in /public — fixes the previously broken /vite.svg link) -->
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Default title/description. Individual routes override these at runtime
+         via the useSEO hook (src/hooks/use-seo.ts) so each page gets a unique
+         <title> and description instead of this one being shown everywhere. -->
+    <title>Capacity Connect | Skill Training & Certification Platform</title>
+    <meta name="description" content="Capacity Connect is a skill-training and certification platform for trainees, trainers, and administrators — browse courses, track progress, and earn certificates." />
+    <link rel="canonical" href="https://www.capacityconnect.example.com/" id="canonical-link" />
+
+    <!-- Social share (Open Graph + Twitter) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Capacity Connect" />
+    <meta property="og:title" content="Capacity Connect | Skill Training & Certification Platform" />
+    <meta property="og:description" content="Browse courses, track progress, and earn certificates on Capacity Connect." />
+    <meta property="og:image" content="https://www.capacityconnect.example.com/og-image.png" />
+    <meta property="og:url" content="https://www.capacityconnect.example.com/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Capacity Connect | Skill Training & Certification Platform" />
+    <meta name="twitter:description" content="Browse courses, track progress, and earn certificates on Capacity Connect." />
+    <meta name="twitter:image" content="https://www.capacityconnect.example.com/og-image.png" />
+
+    <!-- Structured data: Organization (safe, site-wide schema — no fabricated
+         review/rating data has been added) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Capacity Connect",
+        "url": "https://www.capacityconnect.example.com/",
+        "logo": "https://www.capacityconnect.example.com/favicon.png",
+        "description": "Skill-training and certification platform for trainees, trainers, and administrators."
+      }
+    </script>
+  </head>
+  <body class="bg-slate-950 text-slate-100 antialiased min-h-screen selection:bg-violet-500/30">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
