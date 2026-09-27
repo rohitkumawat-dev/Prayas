@@ -1,4 +1,4 @@
-# Capacity Connect
+
 
 > **Note on this copy:** this zip has been updated with a round of SEO/technical
 > fixes (favicon, robots.txt, sitemap.xml, llms.txt, per-page titles &
