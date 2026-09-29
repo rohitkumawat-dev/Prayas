@@ -31,10 +31,10 @@ async function runBrowserQuizTests() {
     }
 
     // 2. Trainee Login
-    console.log('\n--- Step 2: Trainee Login (Alex Rivera) ---');
+    console.log('\n--- Step 2: Trainee Login (Arjun Nair) ---');
     await page.goto(`${BASE_URL}/login`);
     await page.waitForSelector('input[type="email"]');
-    await page.fill('input[type="email"]', 'alex.rivera@example.com');
+    await page.fill('input[type="email"]', 'arjun.nair@example.com');
     await page.fill('input[type="password"]', 'Trainee@123');
     await page.click('button[type="submit"]');
     await page.waitForURL('**/trainee/dashboard', { timeout: 10000 });

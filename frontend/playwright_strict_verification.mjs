@@ -116,11 +116,11 @@ async function run() {
     }
 
     // ----------------------------------------------------
-    // TEST 4: TRAINEE FLOW (Alex Rivera)
+    // TEST 4: TRAINEE FLOW (Arjun Nair)
     // ----------------------------------------------------
     console.log('\n--- Test 4: Trainee Full Flow ---');
     await page.goto(`${BASE_URL}/login`);
-    await page.fill('input[type="email"]', 'alex.rivera@example.com');
+    await page.fill('input[type="email"]', 'arjun.nair@example.com');
     await page.fill('input[type="password"]', 'Trainee@123');
     await page.click('button[type="submit"]');
     await page.waitForURL('**/trainee/dashboard', { timeout: 10000 });
@@ -128,9 +128,9 @@ async function run() {
 
     // Verify seeded stats in Trainee Dashboard
     const traineeDashboardText = await page.textContent('body');
-    if (traineeDashboardText.includes('Alex Rivera') && traineeDashboardText.includes('Python for Data Science')) {
+    if (traineeDashboardText.includes('Arjun Nair') && traineeDashboardText.includes('Python for Data Science')) {
       const match = traineeDashboardText.match(/(\d+(\.\d+)?%)/);
-      logPass('Trainee Dashboard Real Data', `Loaded Alex Rivera with ${match ? match[0] : 'dynamic'} avg progress and active courses from SQLite`);
+      logPass('Trainee Dashboard Real Data', `Loaded Arjun Nair with ${match ? match[0] : 'dynamic'} avg progress and active courses from SQLite`);
     } else {
       logFail('Trainee Dashboard Real Data', 'Seeded data missing from dashboard');
     }
@@ -206,11 +206,11 @@ async function run() {
     await page.evaluate(() => localStorage.clear());
 
     // ----------------------------------------------------
-    // TEST 5: TRAINER FLOW (Sarah Chen)
+    // TEST 5: TRAINER FLOW (Ananya Iyer)
     // ----------------------------------------------------
     console.log('\n--- Test 5: Trainer Full Flow ---');
     await page.goto(`${BASE_URL}/login`);
-    await page.fill('input[type="email"]', 'sarah.chen@example.com');
+    await page.fill('input[type="email"]', 'ananya.iyer@example.com');
     await page.fill('input[type="password"]', 'Trainer@123');
     await page.click('button[type="submit"]');
     await page.waitForURL('**/trainer/dashboard', { timeout: 10000 });
@@ -218,7 +218,7 @@ async function run() {
 
     // Trainer Dashboard & Needs Attention
     const trainerDashText = await page.textContent('body');
-    if (trainerDashText.includes('Sarah Chen') && trainerDashText.includes('Needs Attention')) {
+    if (trainerDashText.includes('Ananya Iyer') && trainerDashText.includes('Needs Attention')) {
       logPass('Trainer Dashboard', 'Loaded instructor statistics and Needs Attention card');
     }
     if (trainerDashText.includes('Raj Patel') || trainerDashText.includes('At-risk')) {
@@ -230,7 +230,7 @@ async function run() {
     await page.goto(`${BASE_URL}/trainer/courses`);
     await page.waitForTimeout(1500);
     const trainerCourses = await page.locator('h2').allTextContents();
-    logPass('Trainer Courses List', `Loaded courses owned by Sarah: ${trainerCourses.join(', ')}`);
+    logPass('Trainer Courses List', `Loaded courses owned by Ananya: ${trainerCourses.join(', ')}`);
     await page.screenshot({ path: 'verify-13-trainer-courses.png' });
 
     // Trainer Students Roster
@@ -345,7 +345,7 @@ async function run() {
     }
 
     // Role-based route isolation: Login as Trainee, attempt /admin/dashboard
-    await page.fill('input[type="email"]', 'alex.rivera@example.com');
+    await page.fill('input[type="email"]', 'arjun.nair@example.com');
     await page.fill('input[type="password"]', 'Trainee@123');
     await page.click('button[type="submit"]');
     await page.waitForURL('**/trainee/dashboard', { timeout: 10000 });
@@ -355,7 +355,7 @@ async function run() {
     await page.waitForTimeout(1000);
     const traineeAdminAccessUrl = page.url();
     // DashboardLayout checks allowedRoles=['admin'] and redirects or displays unauthorized
-    const hasAdminAccess = traineeAdminAccessUrl.includes('/admin/dashboard') && !(await page.textContent('body')).includes('Welcome back, Alex');
+    const hasAdminAccess = traineeAdminAccessUrl.includes('/admin/dashboard') && !(await page.textContent('body')).includes('Welcome back, Arjun');
     if (!hasAdminAccess || traineeAdminAccessUrl.includes('/login')) {
       logPass('Frontend RBAC Role Protection', 'Trainee was prevented from accessing Admin dashboard');
     }

@@ -8,6 +8,7 @@ import { ProgressBar } from '@/components/ui/progress-bar';
 import { CheckCircle, ChevronLeft, ChevronRight, BookOpen, Menu, X } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { useSEO } from '@/hooks/use-seo';
+import { LessonContent } from '@/components/shared/lesson-content';
 
 export default function LearningPage() {
   const { id } = useParams();
@@ -166,23 +167,8 @@ export default function LearningPage() {
           </div>
 
           {/* Lesson content */}
-          <article className="prose prose-invert prose-slate max-w-none mb-12">
-            <div className="text-slate-300 leading-relaxed whitespace-pre-line text-[15px]">
-              {lesson.content?.split('\n').map((line: string, i: number) => {
-                // NOTE: the page already renders one <h1> above (the lesson title).
-                // A markdown "# " line inside the lesson body is demoted to <h2>
-                // (and "##"/"###" to <h3>/<h4>) so a page never ends up with more
-                // than one <h1> — that's an SEO/accessibility violation.
-                if (line.startsWith('# ')) return <h2 key={i} className="text-2xl font-bold text-slate-100 mt-8 mb-4">{line.slice(2)}</h2>;
-                if (line.startsWith('## ')) return <h3 key={i} className="text-xl font-semibold text-slate-100 mt-6 mb-3">{line.slice(3)}</h3>;
-                if (line.startsWith('### ')) return <h4 key={i} className="text-lg font-medium text-slate-200 mt-4 mb-2">{line.slice(4)}</h4>;
-                if (line.startsWith('```')) return <div key={i} className="bg-slate-800/50 rounded px-4 py-0.5 font-mono text-sm text-cyan-300">{line.slice(3)}</div>;
-                if (line.startsWith('- ')) return <li key={i} className="text-slate-300 ml-4 list-disc">{line.slice(2)}</li>;
-                if (line.startsWith('1. ') || line.startsWith('2. ') || line.startsWith('3. ')) return <li key={i} className="text-slate-300 ml-4 list-decimal">{line.slice(3)}</li>;
-                if (line.trim() === '') return <br key={i} />;
-                return <p key={i} className="text-slate-300 mb-2">{line}</p>;
-              })}
-            </div>
+          <article className="max-w-none mb-12">
+            <LessonContent content={lesson.content || ''} />
           </article>
 
           {/* Actions */}

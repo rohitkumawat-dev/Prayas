@@ -386,6 +386,9 @@ function UserProfile({ userId }: { userId: number }) {
 ```""",
 }
 
+from content import LESSON_THEORY  # full theory for every lesson (backend/content/)
+
+
 def get_content(key):
     return LESSON_CONTENTS.get(key, f"""# Lesson Content
 
@@ -422,11 +425,11 @@ def seed_db():
                      is_super_admin=False, status='active',
                      bio='Platform administrator for Capacity Connect.')
 
-        sarah = User(name='Sarah Chen', email='sarah.chen@example.com',
+        ananya = User(name='Ananya Iyer', email='ananya.iyer@example.com',
                      password_hash=generate_password_hash('Trainer@123'), role='trainer',
                      status='active',
                      bio='Senior web developer with 8 years of experience in full-stack development.')
-        marcus = User(name='Marcus Johnson', email='marcus.johnson@example.com',
+        rohan = User(name='Rohan Mehta', email='rohan.mehta@example.com',
                       password_hash=generate_password_hash('Trainer@123'), role='trainer',
                       status='active',
                       bio='Data scientist and Python instructor with expertise in ML and analytics.')
@@ -435,11 +438,11 @@ def seed_db():
                      status='active',
                      bio='UI/UX designer specializing in user-centered design and accessibility.')
 
-        alex = User(name='Alex Rivera', email='alex.rivera@example.com',
+        arjun = User(name='Arjun Nair', email='arjun.nair@example.com',
                     password_hash=generate_password_hash('Trainee@123'), role='trainee',
                     status='active',
                     bio='Aspiring full-stack developer.')
-        emma = User(name='Emma Watson', email='emma.watson@example.com',
+        kavya = User(name='Kavya Reddy', email='kavya.reddy@example.com',
                     password_hash=generate_password_hash('Trainee@123'), role='trainee',
                     status='active',
                     bio='Career switcher moving into data science.')
@@ -447,27 +450,28 @@ def seed_db():
                    password_hash=generate_password_hash('Trainee@123'), role='trainee',
                    status='active',
                    bio='Computer science student.')
-        lisa = User(name='Lisa Park', email='lisa.park@example.com',
+        neha = User(name='Neha Gupta', email='neha.gupta@example.com',
                     password_hash=generate_password_hash('Trainee@123'), role='trainee',
                     status='active',
                     bio='Graphic designer learning web development.')
-        james = User(name='James Miller', email='james.miller@example.com',
+        vikram = User(name='Vikram Singh', email='vikram.singh@example.com',
                      password_hash=generate_password_hash('Trainee@123'), role='trainee',
                      status='active',
                      bio='Junior developer expanding skills.')
 
-        db.session.add_all([siddharth, admin, sarah, marcus, priya, alex, emma, raj, lisa, james])
+        db.session.add_all([siddharth, admin, ananya, rohan, priya, arjun, kavya, raj, neha, vikram])
         db.session.commit()
 
         print("Creating courses...")
         courses_data = [
             {
                 'title': 'Full-Stack Web Development',
+                'thumbnail': '/course-thumbnails/full-stack-web.jpg',
                 'description': 'A comprehensive course covering HTML, CSS, JavaScript, React, Node.js, and databases. Learn to build complete web applications from frontend to backend.',
                 'category': 'Development',
                 'difficulty': 'advanced',
                 'duration_hours': 40,
-                'trainer': sarah,
+                'trainer': ananya,
                 'modules': [
                     {
                         'title': 'Web Fundamentals',
@@ -527,11 +531,12 @@ def seed_db():
             },
             {
                 'title': 'Python for Data Science',
+                'thumbnail': '/course-thumbnails/python-data-science.jpg',
                 'description': 'Master Python programming for data analysis, visualization, and machine learning. Covers NumPy, Pandas, Matplotlib, and Scikit-learn.',
                 'category': 'Data Science',
                 'difficulty': 'intermediate',
                 'duration_hours': 30,
-                'trainer': marcus,
+                'trainer': rohan,
                 'modules': [
                     {
                         'title': 'Python Foundations',
@@ -580,6 +585,7 @@ def seed_db():
             },
             {
                 'title': 'UI/UX Design Fundamentals',
+                'thumbnail': '/course-thumbnails/uiux-design.jpg',
                 'description': 'Learn the principles of user interface and user experience design. Covers design thinking, wireframing, prototyping, and usability testing.',
                 'category': 'Design',
                 'difficulty': 'beginner',
@@ -633,11 +639,12 @@ def seed_db():
             },
             {
                 'title': 'React & TypeScript Mastery',
+                'thumbnail': '/course-thumbnails/react-typescript.jpg',
                 'description': 'Advanced React development with TypeScript. Build type-safe, scalable applications with modern React patterns and best practices.',
                 'category': 'Development',
                 'difficulty': 'intermediate',
                 'duration_hours': 25,
-                'trainer': sarah,
+                'trainer': ananya,
                 'modules': [
                     {
                         'title': 'TypeScript Foundations',
@@ -686,11 +693,12 @@ def seed_db():
             },
             {
                 'title': 'Machine Learning Basics',
+                'thumbnail': '/course-thumbnails/machine-learning-basics.jpg',
                 'description': 'Introduction to machine learning concepts, algorithms, and practical applications using Python and Scikit-learn.',
                 'category': 'Data Science',
                 'difficulty': 'beginner',
                 'duration_hours': 15,
-                'trainer': marcus,
+                'trainer': rohan,
                 'modules': [
                     {
                         'title': 'ML Foundations',
@@ -730,6 +738,7 @@ def seed_db():
             },
             {
                 'title': 'Advanced CSS & Animation',
+                'thumbnail': '/course-thumbnails/advanced-css.jpg',
                 'description': 'Master advanced CSS techniques including animations, transitions, Grid layouts, and modern CSS features for creating stunning web experiences.',
                 'category': 'Design',
                 'difficulty': 'advanced',
@@ -783,6 +792,7 @@ def seed_db():
                 category=cd['category'],
                 difficulty=cd['difficulty'],
                 duration_hours=cd['duration_hours'],
+                thumbnail=cd.get('thumbnail'),
                 is_published=True,
                 trainer_id=cd['trainer'].id
             )
@@ -803,7 +813,7 @@ def seed_db():
                 for li, (ltitle, lkey, ldur) in enumerate(md['lessons']):
                     lesson = Lesson(
                         title=ltitle,
-                        content=get_content(lkey),
+                        content=LESSON_THEORY.get(ltitle) or get_content(lkey),
                         type='text',
                         duration_minutes=ldur,
                         order=li + 1,
@@ -925,15 +935,15 @@ def seed_db():
             db.session.add(activity)
             db.session.commit()
 
-        # Alex: completed Full-Stack Web Dev, active in React & TS (70%), active in Python DS (30%)
-        complete_course(alex, c1, q1, 6, days_ago=3)
-        partial_enroll(alex, c4, 0.7, days_ago=15)
-        partial_enroll(alex, c2, 0.3, days_ago=8)
+        # Arjun: completed Full-Stack Web Dev, active in React & TS (70%), active in Python DS (30%)
+        complete_course(arjun, c1, q1, 6, days_ago=3)
+        partial_enroll(arjun, c4, 0.7, days_ago=15)
+        partial_enroll(arjun, c2, 0.3, days_ago=8)
 
-        # Emma: completed Python for DS, active in ML Basics (60%), active in UI/UX (20%)
-        complete_course(emma, c2, q2, 4, days_ago=7)
-        partial_enroll(emma, c5, 0.6, days_ago=12)
-        partial_enroll(emma, c3, 0.2, days_ago=5)
+        # Kavya: completed Python for DS, active in ML Basics (60%), active in UI/UX (20%)
+        complete_course(kavya, c2, q2, 4, days_ago=7)
+        partial_enroll(kavya, c5, 0.6, days_ago=12)
+        partial_enroll(kavya, c3, 0.2, days_ago=5)
 
         # Raj: active in Full-Stack (low ~7%), active in React TS (low ~8%)
         partial_enroll(raj, c1, 0.07, days_ago=20)
@@ -959,22 +969,22 @@ def seed_db():
             db.session.add(ans)
         db.session.commit()
 
-        # Lisa: completed UI/UX Design, active in Advanced CSS (50%), active in Full-Stack (40%)
-        complete_course(lisa, c3, q3, 5, days_ago=10)
-        partial_enroll(lisa, c6, 0.5, days_ago=8)
-        partial_enroll(lisa, c1, 0.4, days_ago=6)
+        # Neha: completed UI/UX Design, active in Advanced CSS (50%), active in Full-Stack (40%)
+        complete_course(neha, c3, q3, 5, days_ago=10)
+        partial_enroll(neha, c6, 0.5, days_ago=8)
+        partial_enroll(neha, c1, 0.4, days_ago=6)
 
-        # James: active in ML Basics (80%), active in Python DS (55%)
-        partial_enroll(james, c5, 0.8, days_ago=18)
-        partial_enroll(james, c2, 0.55, days_ago=12)
+        # Vikram: active in ML Basics (80%), active in Python DS (55%)
+        partial_enroll(vikram, c5, 0.8, days_ago=18)
+        partial_enroll(vikram, c2, 0.55, days_ago=12)
 
         # Add some lesson-complete activities for variety
         for user, desc, days in [
-            (alex, 'Completed lesson: React State and Props', 2),
-            (emma, 'Completed lesson: Linear Regression', 3),
-            (james, 'Completed lesson: Hyperparameter Tuning', 1),
-            (lisa, 'Completed lesson: CSS Transitions', 4),
-            (alex, 'Completed lesson: Typed Components and Props', 1),
+            (arjun, 'Completed lesson: React State and Props', 2),
+            (kavya, 'Completed lesson: Linear Regression', 3),
+            (vikram, 'Completed lesson: Hyperparameter Tuning', 1),
+            (neha, 'Completed lesson: CSS Transitions', 4),
+            (arjun, 'Completed lesson: Typed Components and Props', 1),
         ]:
             act = Activity(user_id=user.id, type='lesson_complete',
                           description=desc, created_at=now - timedelta(days=days))
@@ -985,14 +995,14 @@ def seed_db():
         print()
         print("=== Demo Credentials ===")
         print("Admin:    admin@capacityconnect.com / Admin@123")
-        print("Trainer:  sarah.chen@example.com / Trainer@123")
-        print("Trainer:  marcus.johnson@example.com / Trainer@123")
+        print("Trainer:  ananya.iyer@example.com / Trainer@123")
+        print("Trainer:  rohan.mehta@example.com / Trainer@123")
         print("Trainer:  priya.sharma@example.com / Trainer@123")
-        print("Trainee:  alex.rivera@example.com / Trainee@123")
-        print("Trainee:  emma.watson@example.com / Trainee@123")
+        print("Trainee:  arjun.nair@example.com / Trainee@123")
+        print("Trainee:  kavya.reddy@example.com / Trainee@123")
         print("Trainee:  raj.patel@example.com / Trainee@123")
-        print("Trainee:  lisa.park@example.com / Trainee@123")
-        print("Trainee:  james.miller@example.com / Trainee@123")
+        print("Trainee:  neha.gupta@example.com / Trainee@123")
+        print("Trainee:  vikram.singh@example.com / Trainee@123")
 
 if __name__ == '__main__':
     seed_db()

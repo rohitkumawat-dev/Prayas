@@ -50,8 +50,8 @@ def claim_certificate(course_id):
     if len(lesson_ids) > 0 and completed_lessons < len(lesson_ids):
         return error_response('Not all lessons are completed', 400)
         
-    # Verify all quizzes passed
-    quizzes = Quiz.query.filter_by(course_id=course_id).all()
+    # Verify the final assessment(s) are passed (module quizzes are formative)
+    quizzes = Quiz.query.filter_by(course_id=course_id, module_id=None).all()
     for q in quizzes:
         passed_attempt = QuizAttempt.query.filter_by(
             user_id=g.current_user.id, quiz_id=q.id, passed=True

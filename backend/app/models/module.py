@@ -19,5 +19,6 @@ class Module(db.Model):
             'description': self.description,
             'order': self.order,
             'course_id': self.course_id,
-            'lessons': [lesson.to_dict() for lesson in self.lessons] if self.lessons else []
+            'lessons': [lesson.to_dict() for lesson in self.lessons] if self.lessons else [],
+            'quiz': self.quizzes[0].to_dict() if self.quizzes else None
         }

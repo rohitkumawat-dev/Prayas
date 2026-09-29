@@ -499,7 +499,7 @@ export default function AdminUsers() {
             required
             value={createForm.name}
             onChange={(e) => setCreateForm({ ...createForm, name: e.target.value })}
-            placeholder="e.g. Alex Rivera"
+            placeholder="e.g. Arjun Nair"
           />
 
           <Input 

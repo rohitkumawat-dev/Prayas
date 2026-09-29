@@ -7,3 +7,9 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     CORS_HEADERS = 'Content-Type'
     CORS_ORIGINS = os.environ.get('CORS_ORIGINS')
+
+    # Assessment flow: when True, a module quiz unlocks once every lesson in
+    # that module is completed, and the final assessment unlocks once every
+    # lesson in the course is completed. Set REQUIRE_COMPLETION_FOR_QUIZZES=1
+    # to enable this locking (off by default).
+    REQUIRE_COMPLETION_FOR_QUIZZES = os.environ.get('REQUIRE_COMPLETION_FOR_QUIZZES', '0') not in ('0', 'false', 'False')

@@ -61,13 +61,13 @@ def run_tests():
     assert_test(status == 403, "Standard Admin blocked from approval-requests with 403", f"Got: {status}")
 
     # 4. Trainee blocked from approval requests
-    status, res = api_call('/auth/login', 'POST', {'email': 'alex.rivera@example.com', 'password': 'Trainee@123'})
+    status, res = api_call('/auth/login', 'POST', {'email': 'arjun.nair@example.com', 'password': 'Trainee@123'})
     trainee_token = res['data']['token']
     status, res = api_call('/admin/approval-requests', 'GET', token=trainee_token)
     assert_test(status == 403, "Trainee blocked from approval-requests with 403", f"Got: {status}")
 
     # 5. Trainer blocked from approval requests
-    status, res = api_call('/auth/login', 'POST', {'email': 'sarah.chen@example.com', 'password': 'Trainer@123'})
+    status, res = api_call('/auth/login', 'POST', {'email': 'ananya.iyer@example.com', 'password': 'Trainer@123'})
     trainer_token = res['data']['token']
     status, res = api_call('/admin/approval-requests', 'GET', token=trainer_token)
     assert_test(status == 403, "Trainer blocked from approval-requests with 403", f"Got: {status}")
@@ -172,8 +172,8 @@ def run_tests():
     # ==========================================
     print("\n--- Lesson Authorization & Enrollment Tests ---")
 
-    # 20. Enrolled Trainee (Alex Rivera) accesses lesson in Course 1 (Lesson 1: Intro to Web Dev)
-    # Alex Rivera is enrolled in Course 1
+    # 20. Enrolled Trainee (Arjun Nair) accesses lesson in Course 1 (Lesson 1: Intro to Web Dev)
+    # Arjun Nair is enrolled in Course 1
     status, res = api_call('/lessons/1', 'GET', token=trainee_token)
     assert_test(status == 200, "Enrolled trainee accesses Lesson 1 with HTTP 200", res.get('data', {}).get('title'))
     assert_test(res['data']['course_id'] == 1, "Lesson 1 resolved to Course 1")

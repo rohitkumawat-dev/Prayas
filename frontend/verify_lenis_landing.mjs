@@ -210,7 +210,7 @@ async function run() {
 
     // 1. Login as Trainer
     await dashPage.goto(`${BASE_URL}/login`);
-    await dashPage.fill('input[type="email"]', 'sarah.chen@example.com');
+    await dashPage.fill('input[type="email"]', 'ananya.iyer@example.com');
     await dashPage.fill('input[type="password"]', 'Trainer@123');
     await dashPage.click('button[type="submit"]');
     await dashPage.waitForURL('**/trainer/dashboard', { timeout: 10000 });

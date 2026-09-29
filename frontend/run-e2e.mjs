@@ -14,8 +14,8 @@ async function runTests() {
   console.log('Captured test-login.png');
 
   // Test 2: Trainee Login & Dashboard
-  console.log('Logging in as Trainee (Alex Rivera)...');
-  await page.fill('input[type="email"]', 'alex.rivera@example.com');
+  console.log('Logging in as Trainee (Arjun Nair)...');
+  await page.fill('input[type="email"]', 'arjun.nair@example.com');
   await page.fill('input[type="password"]', 'Trainee@123');
   await page.click('button[type="submit"]');
 
@@ -42,10 +42,10 @@ async function runTests() {
   await page.evaluate(() => localStorage.clear());
 
   // Test 5: Trainer Login & Dashboard
-  console.log('Logging in as Trainer (Sarah Chen)...');
+  console.log('Logging in as Trainer (Ananya Iyer)...');
   await page.goto('http://localhost:5173/login');
   await page.waitForSelector('form');
-  await page.fill('input[type="email"]', 'sarah.chen@example.com');
+  await page.fill('input[type="email"]', 'ananya.iyer@example.com');
   await page.fill('input[type="password"]', 'Trainer@123');
   await page.click('button[type="submit"]');
 

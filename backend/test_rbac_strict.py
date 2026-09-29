@@ -43,19 +43,19 @@ def run():
     test("Admin Login", s, 200)
     admin_token = d.get('data', {}).get('token')
 
-    # 1.2 Valid Trainer Login (Sarah Chen, id=2)
-    s, d = req('/auth/login', 'POST', {'email': 'sarah.chen@example.com', 'password': 'Trainer@123'})
-    test("Trainer (Sarah) Login", s, 200)
+    # 1.2 Valid Trainer Login (Ananya Iyer, id=2)
+    s, d = req('/auth/login', 'POST', {'email': 'ananya.iyer@example.com', 'password': 'Trainer@123'})
+    test("Trainer (Ananya) Login", s, 200)
     sarah_token = d.get('data', {}).get('token')
 
-    # 1.3 Valid Trainer Login (Marcus Johnson, id=3)
-    s, d = req('/auth/login', 'POST', {'email': 'marcus.johnson@example.com', 'password': 'Trainer@123'})
-    test("Trainer (Marcus) Login", s, 200)
+    # 1.3 Valid Trainer Login (Rohan Mehta, id=3)
+    s, d = req('/auth/login', 'POST', {'email': 'rohan.mehta@example.com', 'password': 'Trainer@123'})
+    test("Trainer (Rohan) Login", s, 200)
     marcus_token = d.get('data', {}).get('token')
 
-    # 1.4 Valid Trainee Login (Alex Rivera)
-    s, d = req('/auth/login', 'POST', {'email': 'alex.rivera@example.com', 'password': 'Trainee@123'})
-    test("Trainee (Alex) Login", s, 200)
+    # 1.4 Valid Trainee Login (Arjun Nair)
+    s, d = req('/auth/login', 'POST', {'email': 'arjun.nair@example.com', 'password': 'Trainee@123'})
+    test("Trainee (Arjun) Login", s, 200)
     trainee_token = d.get('data', {}).get('token')
 
     # 1.5 Wrong password
@@ -116,20 +116,20 @@ def run():
 
     print("\n=== 4. TESTING TRAINER OWNERSHIP CHECKS ===")
 
-    # Course 1 is owned by Sarah Chen (trainer_id=2)
-    # Course 2 is owned by Marcus Johnson (trainer_id=3)
+    # Course 1 is owned by Ananya Iyer (trainer_id=2)
+    # Course 2 is owned by Rohan Mehta (trainer_id=3)
     
-    # 4.1 Marcus trying to UPDATE Sarah's course (id=1) -> 403
+    # 4.1 Rohan trying to UPDATE Ananya's course (id=1) -> 403
     s, d = req('/trainer/courses/1', 'PUT', {'title': 'Hacked Title'}, token=marcus_token)
-    test("Trainer Marcus modifying Sarah's course (id=1) -> 403", s, 403)
+    test("Trainer Rohan modifying Ananya's course (id=1) -> 403", s, 403)
 
-    # 4.2 Marcus trying to DELETE Sarah's course (id=1) -> 403
+    # 4.2 Rohan trying to DELETE Ananya's course (id=1) -> 403
     s, d = req('/trainer/courses/1', 'DELETE', token=marcus_token)
-    test("Trainer Marcus deleting Sarah's course (id=1) -> 403", s, 403)
+    test("Trainer Rohan deleting Ananya's course (id=1) -> 403", s, 403)
 
-    # 4.3 Sarah modifying HER OWN course (id=1) -> 200
+    # 4.3 Ananya modifying HER OWN course (id=1) -> 200
     s, d = req('/trainer/courses/1', 'PUT', {'title': 'Full-Stack Web Development'}, token=sarah_token)
-    test("Trainer Sarah modifying her own course (id=1) -> 200", s, 200)
+    test("Trainer Ananya modifying her own course (id=1) -> 200", s, 200)
 
     print("\n=== 5. TESTING AUTHORIZED ACCESS PER ROLE ===")
 

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { CursorDrivenParticleTypography } from '@/components/ui/cursor-driven-particle-typography';
 import { PixelCanvas } from '@/components/ui/pixel-canvas';
+import { ScrollBackdrop } from '@/components/ui/scroll-backdrop';
 import {
   BookOpen, Users, Award, TrendingUp, ClipboardCheck,
   Plus, ChevronRight, GraduationCap, UserCheck, Shield,
@@ -79,7 +80,10 @@ function LandingContent({ isReducedMotion }: { isReducedMotion: boolean }) {
   }, [lenis, isReducedMotion]);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-violet-500/30 selection:text-violet-200">
+    <div className="relative isolate min-h-screen bg-slate-950 text-slate-100 selection:bg-violet-500/30 selection:text-violet-200">
+      {/* Scroll-driven background transition */}
+      <ScrollBackdrop reducedMotion={isReducedMotion} />
+
       {/* Subtle craft scroll progress indicator */}
       <div 
         className="fixed top-0 left-0 right-0 h-[2px] z-[60] bg-transparent pointer-events-none"

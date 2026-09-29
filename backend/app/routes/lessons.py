@@ -6,6 +6,7 @@ from app.models.lesson_progress import LessonProgress
 from app.models.activity import Activity
 from app.utils.helpers import success_response, error_response
 from app.utils.decorators import token_required
+from app.services.quiz_helpers import quiz_status
 from datetime import datetime, timezone
 
 lessons_bp = Blueprint('lessons', __name__)
@@ -59,11 +60,13 @@ def get_lesson(id):
     # Include course modules for sidebar navigation
     data['course_modules'] = []
     for m in sorted(course.modules, key=lambda x: x.order):
+        module_quiz = m.quizzes[0] if m.quizzes else None
         module_data = {
             'id': m.id,
             'title': m.title,
             'order': m.order,
-            'lessons': []
+            'lessons': [],
+            'quiz': quiz_status(g.current_user.id, module_quiz) if module_quiz else None
         }
         for l in sorted(m.lessons, key=lambda x: x.order):
             lp = LessonProgress.query.filter_by(user_id=g.current_user.id, lesson_id=l.id).first()
@@ -75,6 +78,15 @@ def get_lesson(id):
                 'is_current': l.id == lesson.id
             })
         data['course_modules'].append(module_data)
+
+    # Assessment hooks for the end of a module / the end of the course
+    current_module_lessons = sorted(module.lessons, key=lambda x: x.order)
+    data['is_last_in_module'] = bool(current_module_lessons) and current_module_lessons[-1].id == lesson.id
+    data['is_last_in_course'] = bool(all_lessons) and all_lessons[-1].id == lesson.id
+    data['module_id'] = module.id
+    data['module_quiz'] = next((m['quiz'] for m in data['course_modules'] if m['id'] == module.id), None)
+    final_quiz = next((q for q in course.quizzes if q.module_id is None), None)
+    data['final_quiz'] = quiz_status(g.current_user.id, final_quiz) if final_quiz else None
 
     return success_response(data)
 

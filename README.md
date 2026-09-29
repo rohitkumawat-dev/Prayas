@@ -108,14 +108,14 @@ Frontend runs at `http://localhost:5173`
 | Role    | Email                          | Password    |
 |---------|--------------------------------|-------------|
 | Admin   | admin@capacityconnect.com      | Admin@123   |
-| Trainer | sarah.chen@example.com         | Trainer@123 |
-| Trainer | marcus.johnson@example.com     | Trainer@123 |
+| Trainer | ananya.iyer@example.com         | Trainer@123 |
+| Trainer | rohan.mehta@example.com     | Trainer@123 |
 | Trainer | priya.sharma@example.com       | Trainer@123 |
-| Trainee | alex.rivera@example.com        | Trainee@123 |
-| Trainee | emma.watson@example.com        | Trainee@123 |
+| Trainee | arjun.nair@example.com        | Trainee@123 |
+| Trainee | kavya.reddy@example.com        | Trainee@123 |
 | Trainee | raj.patel@example.com          | Trainee@123 |
-| Trainee | lisa.park@example.com          | Trainee@123 |
-| Trainee | james.miller@example.com       | Trainee@123 |
+| Trainee | neha.gupta@example.com          | Trainee@123 |
+| Trainee | vikram.singh@example.com       | Trainee@123 |
 
 ## Features
 

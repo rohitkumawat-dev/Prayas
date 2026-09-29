@@ -20,12 +20,12 @@ async function runQuizBrowserTests() {
 
   try {
     // ----------------------------------------------------
-    // TEST 1: Trainee Login (Alex Rivera)
+    // TEST 1: Trainee Login (Arjun Nair)
     // ----------------------------------------------------
     console.log('--- Step 1: Trainee Login ---');
     await page.goto(`${BASE_URL}/login`);
     await page.waitForSelector('input[type="email"]');
-    await page.fill('input[type="email"]', 'alex.rivera@example.com');
+    await page.fill('input[type="email"]', 'arjun.nair@example.com');
     await page.fill('input[type="password"]', 'Trainee@123');
     await page.click('button[type="submit"]');
 
@@ -229,11 +229,11 @@ async function runQuizBrowserTests() {
     // Login as trainer
     await page.goto(`${BASE_URL}/login`);
     await page.waitForSelector('input[type="email"]');
-    await page.fill('input[type="email"]', 'sarah.chen@example.com');
+    await page.fill('input[type="email"]', 'ananya.iyer@example.com');
     await page.fill('input[type="password"]', 'Trainer@123');
     await page.click('button[type="submit"]');
     await page.waitForURL('**/trainer/dashboard', { timeout: 10000 });
-    logPass('Trainer Sarah Chen Login', 'Trainer dashboard accessed');
+    logPass('Trainer Ananya Iyer Login', 'Trainer dashboard accessed');
 
     // Navigate to Trainer Courses
     await page.goto(`${BASE_URL}/trainer/courses`);

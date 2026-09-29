@@ -13,6 +13,7 @@ class Quiz(db.Model):
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
     questions = db.relationship('Question', backref='quiz', cascade="all, delete-orphan", order_by="Question.order")
+    module_ref = db.relationship('Module', backref=db.backref('quizzes', cascade="all, delete-orphan"), foreign_keys=[module_id])
 
     def to_dict(self):
         return {
@@ -23,7 +24,9 @@ class Quiz(db.Model):
             'course_id': self.course_id,
             'module_id': self.module_id,
             'time_limit_minutes': self.time_limit_minutes,
-            'questions_count': len(self.questions)
+            'questions_count': len(self.questions),
+            'is_final': self.module_id is None,
+            'module_title': self.module_ref.title if self.module_ref else None
         }
 
 class Question(db.Model):

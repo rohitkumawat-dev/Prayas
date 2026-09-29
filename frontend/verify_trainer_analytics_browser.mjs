@@ -10,11 +10,11 @@ async function runBrowserVerification() {
   const loginRes = await fetch(`${BACKEND_URL}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: 'sarah.chen@example.com', password: 'Trainer@123' })
+    body: JSON.stringify({ email: 'ananya.iyer@example.com', password: 'Trainer@123' })
   });
   const loginData = await loginRes.json();
   if (!loginData.success && loginData.status !== 'success') {
-    throw new Error(`Failed to authenticate Sarah Chen via backend: ${JSON.stringify(loginData)}`);
+    throw new Error(`Failed to authenticate Ananya Iyer via backend: ${JSON.stringify(loginData)}`);
   }
   const trainerToken = loginData.data.token;
 
@@ -24,7 +24,7 @@ async function runBrowserVerification() {
   });
   const coursesData = await coursesRes.json();
   const ownedCourse = coursesData.data[0];
-  console.log(`Discovered Trainer: Sarah Chen, Owned Course ID=${ownedCourse.id} ('${ownedCourse.title}')`);
+  console.log(`Discovered Trainer: Ananya Iyer, Owned Course ID=${ownedCourse.id} ('${ownedCourse.title}')`);
 
   const browser = await chromium.launch({ channel: 'msedge', headless: true });
   const context = await browser.newContext({ viewport: { width: 1366, height: 850 } });
@@ -34,7 +34,7 @@ async function runBrowserVerification() {
     // 1. LOGIN AS TRAINER
     console.log('\n--- Step 1: Login as Trainer ---');
     await page.goto(`${BASE_URL}/login`);
-    await page.fill('input[type="email"]', 'sarah.chen@example.com');
+    await page.fill('input[type="email"]', 'ananya.iyer@example.com');
     await page.fill('input[type="password"]', 'Trainer@123');
     await page.click('button[type="submit"]');
     await page.waitForURL('**/trainer/dashboard', { timeout: 10000 });
@@ -90,10 +90,10 @@ async function runBrowserVerification() {
 
     // Test Search Filter
     const searchInput = page.locator('input[placeholder*="Search learners"]');
-    await searchInput.fill('Alex');
+    await searchInput.fill('Arjun');
     await page.waitForTimeout(400);
     const searchFilteredRows = await page.locator('tbody tr').count();
-    console.log(`[PASS] Search filter for 'Alex' reduced table rows to ${searchFilteredRows}`);
+    console.log(`[PASS] Search filter for 'Arjun' reduced table rows to ${searchFilteredRows}`);
     await searchInput.fill(''); // Clear search
     await page.waitForTimeout(400);
 
@@ -217,7 +217,7 @@ async function runBrowserVerification() {
 
     // 8. CROSS-TRAINER AUTHORIZATION TEST IN UI
     console.log('\n--- Step 8: Cross-Trainer Access Isolation in UI ---');
-    // Course 2 belongs to Marcus Johnson (trainer_id 3), while Sarah Chen is trainer_id 2
+    // Course 2 belongs to Rohan Mehta (trainer_id 3), while Ananya Iyer is trainer_id 2
     await page.goto(`${BASE_URL}/trainer/courses/2/performance`);
     await page.waitForTimeout(1500);
 
@@ -225,7 +225,7 @@ async function runBrowserVerification() {
     if (pageContent.includes('Analytics Not Found') || pageContent.includes('not have permission') || pageContent.includes('403') || pageContent.includes('Unauthorized') || pageContent.includes('Error')) {
       console.log('[PASS] Cross-trainer access strictly blocked with error / access denial view');
     } else {
-      throw new Error('Security violation: Sarah Chen was able to view Marcus Johnson\'s course analytics in UI!');
+      throw new Error('Security violation: Ananya Iyer was able to view Rohan Mehta\'s course analytics in UI!');
     }
     await page.screenshot({ path: 'verify-trainer-unauthorized-blocked.png' });
 

@@ -38,9 +38,9 @@ def run_quiz_tests():
             print(f"[FAIL] {title} {f'- {detail}' if detail else ''}")
             raise AssertionError(f"Test failed: {title} - {detail}")
 
-    # 1. Login as enrolled Trainee (Alex Rivera - user_id 5)
-    status, res = api_call('/auth/login', 'POST', {'email': 'alex.rivera@example.com', 'password': 'Trainee@123'})
-    assert_test(status == 200, "Enrolled Trainee Alex Rivera login successful", f"Status: {status}")
+    # 1. Login as enrolled Trainee (Arjun Nair - user_id 5)
+    status, res = api_call('/auth/login', 'POST', {'email': 'arjun.nair@example.com', 'password': 'Trainee@123'})
+    assert_test(status == 200, "Enrolled Trainee Arjun Nair login successful", f"Status: {status}")
     trainee_token = res['data']['token']
     trainee_id = res['data']['user']['id']
 
@@ -112,20 +112,20 @@ def run_quiz_tests():
     assert_test(status == 200, f"Trainee can view their own attempt {attempt_id} details (HTTP 200)")
     assert_test(len(res['data']['answers']) == len(db_questions), "Detailed attempt returns answer records")
 
-    # 10. Trainee Isolation: Another trainee CANNOT view Alex Rivera's attempt
-    # Login as Emma Watson (user_id 6)
-    status, res = api_call('/auth/login', 'POST', {'email': 'emma.watson@example.com', 'password': 'Trainee@123'})
+    # 10. Trainee Isolation: Another trainee CANNOT view Arjun Nair's attempt
+    # Login as Kavya Reddy (user_id 6)
+    status, res = api_call('/auth/login', 'POST', {'email': 'kavya.reddy@example.com', 'password': 'Trainee@123'})
     emma_token = res['data']['token']
     status, res = api_call(f'/quizzes/1/attempts/{attempt_id}', 'GET', token=emma_token)
-    assert_test(status == 403, "Other trainee (Emma Watson) BLOCKED from viewing Alex's attempt with 403", res.get('message'))
+    assert_test(status == 403, "Other trainee (Kavya Reddy) BLOCKED from viewing Arjun's attempt with 403", res.get('message'))
 
-    # Emma enrolls in course 1 to test attempt isolation when both are enrolled
+    # Kavya enrolls in course 1 to test attempt isolation when both are enrolled
     api_call('/courses/1/enroll', 'POST', token=emma_token)
     status, res = api_call('/quizzes/1/attempts', 'GET', token=emma_token)
-    assert_test(status == 200, "Enrolled trainee (Emma) can view attempts endpoint (HTTP 200)")
+    assert_test(status == 200, "Enrolled trainee (Kavya) can view attempts endpoint (HTTP 200)")
     emma_attempts = res.get('data') or []
     alex_attempt_in_emma = any(a['id'] == attempt_id for a in emma_attempts)
-    assert_test(not alex_attempt_in_emma, "Emma's attempt list strictly excludes Alex's attempt")
+    assert_test(not alex_attempt_in_emma, "Kavya's attempt list strictly excludes Arjun's attempt")
 
     # 11. Unenrolled trainee receives HTTP 403 on GET quiz
     # Register fresh trainee with zero enrollments
@@ -154,11 +154,11 @@ def run_quiz_tests():
     status, res = api_call('/quizzes/1/attempts', 'GET', token=unenrolled_token)
     assert_test(status == 403, "Unenrolled trainee received HTTP 403 on GET /quizzes/1/attempts", res.get('message'))
 
-    # 14. Trainer functionality intact: Trainer Sarah Chen can view quiz and course quizzes
-    status, res = api_call('/auth/login', 'POST', {'email': 'sarah.chen@example.com', 'password': 'Trainer@123'})
+    # 14. Trainer functionality intact: Trainer Ananya Iyer can view quiz and course quizzes
+    status, res = api_call('/auth/login', 'POST', {'email': 'ananya.iyer@example.com', 'password': 'Trainer@123'})
     trainer_token = res['data']['token']
     status, res = api_call('/quizzes/1', 'GET', token=trainer_token)
-    assert_test(status == 200, "Trainer Sarah Chen can view Quiz 1 without trainee enrollment requirement")
+    assert_test(status == 200, "Trainer Ananya Iyer can view Quiz 1 without trainee enrollment requirement")
 
     # 15. Admin functionality intact: Super Admin Siddharth can view quiz
     status, res = api_call('/auth/login', 'POST', {'email': 'paradhisiddharth@gmail.com', 'password': '190925'})
