@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, send_from_directory
 import os
+import os
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from config import Config
@@ -10,7 +11,7 @@ def create_app(config_class=Config):
     app = Flask(
         __name__,
         static_folder="../frontend_dist",
-        static_url_path="/"
+        static_url_path=""
 )
     app.config.from_object(config_class)
     
