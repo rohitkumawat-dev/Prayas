@@ -1,4 +1,5 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
+import os
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from config import Config
@@ -6,7 +7,11 @@ from config import Config
 db = SQLAlchemy()
 
 def create_app(config_class=Config):
-    app = Flask(__name__)
+    app = Flask(
+        __name__,
+        static_folder="../frontend_dist",
+        static_url_path="/"
+)
     app.config.from_object(config_class)
     
     # Allow local development origins (localhost and 127.0.0.1 on any port) and optional custom CORS_ORIGINS
@@ -52,5 +57,17 @@ def create_app(config_class=Config):
     app.register_blueprint(certificates_bp, url_prefix='/api/certificates')
     app.register_blueprint(trainer_bp, url_prefix='/api/trainer')
     app.register_blueprint(admin_bp, url_prefix='/api/admin')
+    # Serve React frontend
+    @app.route("/", defaults={"path": ""})
+    @app.route("/<path:path>")
+    def serve_frontend(path):
+        if path.startswith("api/"):
+            return jsonify({"success": False, "message": "API route not found"}), 404
 
+        file_path = os.path.join(app.static_folder, path)
+
+        if path and os.path.isfile(file_path):
+            return send_from_directory(app.static_folder, path)
+
+        return send_from_directory(app.static_folder, "index.html")
     return app
